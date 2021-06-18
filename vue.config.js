@@ -28,7 +28,7 @@ function chainWebpack (config) {
 module.exports = {
   chainWebpack,
   devServer: {
-    port: 8080,
+    port: 8086,
     open: true,
     overlay: {
       warnings: false,
