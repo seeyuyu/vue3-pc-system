@@ -6,7 +6,7 @@
     </div>
     <div class="main-container">
       <div class="header">
-        <div class="navbar">navbar</div>
+        <!-- <div class="navbar">navbar</div> -->
         <navbar></navbar>
         <div class="tags-view">tagsview</div>
       </div>

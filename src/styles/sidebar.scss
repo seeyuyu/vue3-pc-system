@@ -1,18 +1,22 @@
 #app {
 
-  .sidebar-container {
-    width: $sideBarWidth !important;
+
+  .sidebar-container{
+  
     height: 100%;
     background-color: $menuBg;
     text-align: left;
     // menu未收起时样式
     &-menu:not(.el-menu--collapse) {
       width: $sideBarWidth;
+      color:yellow
     }
-
+ 
      // 菜单收起时的样式调整
      .el-menu--collapse {
       // 隐藏submenu title
+      color: yellowgreen;
+
       .submenu-title {
         display: none;
       }

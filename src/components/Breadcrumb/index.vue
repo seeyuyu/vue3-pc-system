@@ -100,12 +100,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.app-breadcrumb .el-breadcrumb {
-  display: inline-block;
-  line-height: 50px;
+.breadcrumb-container{
+    // display: inline-block;
+  line-height: 50px !important;
   font-size: 14px;
   margin-left: 8px;
 }
+// .app-breadcrumb .el-breadcrumb {
+//   display: inline-block;
+//   line-height: 50px !important;
+//   font-size: 14px;
+//   margin-left: 8px;
+// }
 
 .no-redirect{
   color: #97a8be;

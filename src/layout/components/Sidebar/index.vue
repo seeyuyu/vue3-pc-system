@@ -2,7 +2,7 @@
   <div>
     <h3 style="color:green;" @click="isCollapse = !isCollapse">测试</h3>
     <el-menu
-      class="siderbar-container-menu"
+      class="sidebar-container-menu"
       mode="vertical"
       :default-active="activeMenu"
       :background-color="scssVariables.menuBg"
@@ -26,6 +26,7 @@ import { useRoute } from 'vue-router'
 import SidebarItem from './SidebarItem.vue'
 import { routes } from '@/router'
 import variables from '@/styles/variables.scss'
+import { useStore } from '@/store'
 export default defineComponent({
   name: 'Sidebar',
   components: {
@@ -33,6 +34,7 @@ export default defineComponent({
   },
   setup () {
     const route = useRoute()
+    const store = useStore()
     const activeMenu = computed(() => {
       const { path, meta } = route
       if (meta.activeMenu) {
@@ -43,7 +45,8 @@ export default defineComponent({
     // scss变量
     const scssVariables = computed(() => variables)
     // 菜单展开收起状态 需要存储在store中
-    const isCollapse = ref(false)
+    const isCollapse = computed(() => !store.getters.sidebar.opened)
+
     const menuRoutes = computed(() => {
       console.log('route is', routes)
       return routes
