@@ -1,5 +1,5 @@
 import {
-  ElButton, ElMenuItem, ElMessage, ElMessageBox, ElNotification, ElSubmenu, ElMenu, ElBreadcrumb, ElBreadcrumbItem, ElCol
+  ElButton, ElMenuItem, ElMessage, ElMessageBox, ElNotification, ElSubmenu, ElMenu, ElBreadcrumb, ElBreadcrumbItem, ElCol, ElDropdown, ElDropdownItem, ElDropdownMenu
 } from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import locale from 'element-plus/lib/locale'
@@ -19,7 +19,11 @@ export default (app: App):void => {
     ElSubmenu,
     ElCol,
     ElBreadcrumb,
-    ElBreadcrumbItem
+    ElBreadcrumbItem,
+    ElDropdown,
+    ElDropdownItem,
+    ElDropdownMenu
+
   ]
   components.forEach(component => {
     app.component(component.name, component)

@@ -76,7 +76,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         }
       }
     ]
-  }
+  },
   // {
   //   path: '/external-link',
   //   component: Layout,
@@ -91,6 +91,14 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
   //     }
   //   ]
   // }
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/404',
+    meta: {
+      hidden: true
+    }
+
+  }
 ]
 export const constantRoutes: Array<RouteRecordRaw> = [
   {
@@ -109,6 +117,41 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         }
       }
     ]
+  },
+  {
+    path: '/redirect',
+    component: Layout,
+    meta: {
+      hidden: true
+    },
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/401',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/error-page/401.vue'),
+        meta: {
+          title: '401',
+          icon: '401',
+          hidden: true
+        }
+      }
+    ]
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404.vue'),
+    meta: {
+      hidden: true
+    }
   }
 ]
 

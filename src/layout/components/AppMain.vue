@@ -2,7 +2,7 @@
   <div class="app-main">
     <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="put-in">
-        <keep-alive>
+        <keep-alive :include="cachedViews">
           <component :is="Component" :key="key"></component>
         </keep-alive>
       </transition>
@@ -10,14 +10,15 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'AppMain',
   setup () {
+    const cachedViews = ref([])
     const route = useRoute()
     const key = computed(() => route.path)
-    return key
+    return { key, cachedViews }
   }
 })
 </script>
