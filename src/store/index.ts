@@ -1,11 +1,14 @@
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { InjectionKey } from 'vue'
 import app, { IAppState } from '@/store/modules/app'
+import tagsView, { ITagsViewState } from './modules/tagsView'
 import getters from './getters'
 import createPersistedState from 'vuex-persistedstate'
+
 // 声明全局状态类型，主要是定义的模块
 export interface IRootState {
-  app: IAppState
+  app: IAppState,
+  tagsView: ITagsViewState
 }
 
 // eslint-disable-next-line symbol-description
@@ -24,7 +27,8 @@ export default createStore<IRootState>({
   ],
   getters,
   modules: {
-    app
+    app,
+    tagsView
   }
 })
 

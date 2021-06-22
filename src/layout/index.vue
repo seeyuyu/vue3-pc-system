@@ -8,7 +8,8 @@
       <div class="header">
         <!-- <div class="navbar">navbar</div> -->
         <navbar></navbar>
-        <div class="tags-view">tagsview</div>
+        <tags-view></tags-view>
+        <!-- <div class="tags-view">tagsview</div> -->
       </div>
       <app-main></app-main>
     </div>
@@ -16,9 +17,10 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Sidebar from './components/sidebar/index.vue'
+import Sidebar from './components/Sidebar/index.vue'
 import AppMain from './components/AppMain.vue'
 import Navbar from './components/Navbar.vue'
+import TagsView from './components/TagsView/index.vue'
 export default defineComponent({
   name: 'Layout',
   // setup () {
@@ -27,7 +29,8 @@ export default defineComponent({
   components: {
     Sidebar,
     AppMain,
-    Navbar
+    Navbar,
+    TagsView
   }
 })
 </script>
