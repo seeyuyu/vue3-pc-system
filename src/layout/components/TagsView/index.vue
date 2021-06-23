@@ -9,7 +9,7 @@
         :key="index"
         tag="span"
       >
-        {{ teg.meta.title || "haha" }}
+        {{ tag.meta.title || "haha" }}
         <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)">
         </span>
       </router-link>
@@ -62,9 +62,13 @@ export default defineComponent({
   height: 34px;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba($color: #000000, $alpha: 0.12),
-    0 0 3px 0 rgba($color: #000000, $alpha: 0.4);
+  // box-shadow: 0 1px 3px 0 rgba($color: #000000, $alpha: 0.12),
+  //   0 0 3px 0 rgba($color: #000000, $alpha: 0.4);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
   .tags-view-wrapper {
+    height: 34px;
+    display: flex;
+    align-items: center;
     .tags-view-item {
       display: inline-block;
       height: 26px;
@@ -112,7 +116,7 @@ export default defineComponent({
     left: 2px;
     border-radius: 50%;
     text-align: center;
-    transition: all 0.3s cubic-bezier(0.645, 045, 0.355, 1);
+    transition: all 0.1s cubic-bezier(0.645, 045, 0.355, 1);
     transform-origin: 100% 50%;
     &::before {
       transform: scale(0.6);

@@ -22,11 +22,17 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
   {
     path: '/guide',
     component: Layout,
+    name: 'Guide',
     redirect: '/guide/index',
+    meta: {
+      title: 'Guide',
+      icon: '404',
+      alwaysShow: true
+    },
     children: [
       {
         path: 'index',
-        name: 'Guide',
+        name: 'GuideIndex',
         component: () => import(/* webpackChunkName: "guide" */ '@/views/guide/index.vue'),
         meta: {
           title: 'Guide',
@@ -38,6 +44,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
   },
   {
     path: '/system',
+    name: 'System',
     component: Layout,
     redirect: '/system/user',
     meta: {
@@ -48,7 +55,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'menu',
-        name: 'menu',
+        name: 'Menu',
         component: () => import(/* webpackChunkName: "menu" */ '@/views/system/menu.vue'),
         meta: {
           title: 'menu management',
@@ -58,7 +65,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       },
       {
         path: 'role',
-        name: 'role',
+        name: 'Role',
         component: () => import(/* webpackChunkName: "role" */ '@/views/system/role.vue'),
         meta: {
           title: 'role management',
@@ -68,7 +75,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       },
       {
         path: 'user',
-        name: 'user',
+        name: 'User',
         component: () => import(/* webpackChunkName: "user" */ '@/views/system/user.vue'),
         meta: {
           title: 'user management',
@@ -106,6 +113,10 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     name: 'Layout',
     component: Layout,
     redirect: '/dashboard',
+    meta: {
+      title: 'Dashboard',
+      icon: 'el-icon-platform-eleme'
+    },
     children: [
       {
         path: 'dashboard',
@@ -121,6 +132,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/redirect',
     component: Layout,
+    name: 'ReDirect',
     meta: {
       hidden: true
     },

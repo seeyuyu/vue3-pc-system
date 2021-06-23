@@ -11,7 +11,6 @@ const mutations: MutationTree<ITagsViewState> = {
   ADD_VISITED_VIEW (state, view) {
     // 去重
     if (state.visitedViews.some(v => v.path === view.path)) return
-    debugger
     state.visitedViews.push(Object.assign({}, view, {
       title: view.meta.title || 'tag-name'
     }))
