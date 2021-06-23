@@ -1,10 +1,16 @@
 import { Module, ActionTree, MutationTree } from 'vuex'
 import { IRootState } from '@/store'
-import { RouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw, RouteRecordNormalized } from 'vue-router'
 
+export interface RouteLocationWithFullPath extends RouteRecordNormalized {
+  fullPath?: string;
+}
 export interface ITagsViewState {
   // 存放当前显示的集合
-  visitedViews: RouteRecordRaw[]
+  // visitedViews: RouteRecordRaw[]
+  visitedViews: RouteLocationWithFullPath[],
+  // 根据路由name缓存
+  cachedViews: RouteRecordRaw[]
 }
 
 const mutations: MutationTree<ITagsViewState> = {
@@ -20,29 +26,47 @@ const mutations: MutationTree<ITagsViewState> = {
     if (i > -1) {
       state.visitedViews.splice(i, 1)
     }
+  },
+  // 添加缓存
+  ADD_CACHED_VIEW (state, view) {
+    if (state.cachedViews.includes(view.name)) return
+    if (view.meta.cache) {
+      state.cachedViews.push(view.name)
+    }
+  },
+  DEL_ALL_CACHED_VIEWS (state) {
+    state.cachedViews = []
   }
 }
 
 const actions: ActionTree<ITagsViewState, IRootState> = {
   addView ({ dispatch }, view: RouteRecordRaw) {
-    console.log('view is', view)
+    // console.log('view is', view)
     dispatch('addVisitedView', view)
   },
   addVisitedView ({ commit }, view: RouteRecordRaw) {
     commit('ADD_VISITED_VIEW', view)
   },
   delView ({ dispatch }, view: RouteRecordRaw) {
-    dispatch('delVisitedView', view)
+    return new Promise((resolve) => {
+      dispatch('delVisitedView', view)
+      dispatch('delCachedView', view)
+      resolve(null)
+    })
   },
-  delVisitedVIew ({ commit }, view: RouteRecordRaw) {
+  delVisitedView ({ commit }, view: RouteRecordRaw) {
     commit('DEL_VISITED_VIEW', view)
+  },
+  addCachedView ({ commit }, view: RouteRecordRaw) {
+    commit('ADD_CACHED_VIEW', view)
   }
 }
 
 const tagsView: Module<ITagsViewState, IRootState> = {
   namespaced: true,
   state: {
-    visitedViews: []
+    visitedViews: [],
+    cachedViews: []
   },
   mutations,
   actions

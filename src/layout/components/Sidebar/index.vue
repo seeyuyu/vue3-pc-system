@@ -48,7 +48,7 @@ export default defineComponent({
     const isCollapse = computed(() => !store.getters.sidebar.opened)
 
     const menuRoutes = computed(() => {
-      console.log('route is', routes)
+      // console.log('route is', routes)
       return routes
     })
     return {

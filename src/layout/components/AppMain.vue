@@ -10,12 +10,24 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 export default defineComponent({
   name: 'AppMain',
   setup () {
-    const cachedViews = ref([])
+    const store = useStore()
+    const cachedViews = computed(() => {
+      console.log('cachedViews is', cachedViews)
+      return (store && store.state.tagsView.cachedViews)
+    }
+
+    // {
+    //   console.log('store is', store)
+    //   // store.state.tagsView.cachedViews
+    //   return []
+    // }
+    )
     const route = useRoute()
     const key = computed(() => route.path)
     return { key, cachedViews }

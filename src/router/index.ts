@@ -14,7 +14,8 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Documentation',
           icon: '404',
-          hidden: false
+          hidden: false,
+          cache: true
         }
       }
     ]
@@ -69,7 +70,8 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "role" */ '@/views/system/role.vue'),
         meta: {
           title: 'role management',
-          icon: '404'
+          icon: '404',
+          affix: true
           // hidden: true
         }
       },

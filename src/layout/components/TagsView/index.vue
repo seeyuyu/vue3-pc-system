@@ -1,36 +1,48 @@
 <template>
   <div class="tags-view-container">
-    <div class="tags-view-wrapper">
-      <router-link
-        class="tags-view-item"
-        :class="{ active: isActive(tag) }"
-        v-for="(tag, index) in visitedTags"
-        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-        :key="index"
-        tag="span"
-      >
-        {{ tag.meta.title || "haha" }}
-        <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)">
-        </span>
-      </router-link>
-    </div>
+    <scroll-panel>
+      <div class="tags-view-wrapper">
+        <router-link
+          class="tags-view-item"
+          :class="{ active: isActive(tag) }"
+          v-for="(tag, index) in visitedTags"
+          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+          :key="index"
+          tag="span"
+        >
+          {{ tag.meta.title || "haha" }}
+          <span
+            class="el-icon-close"
+            v-if="!isAffix(tag)"
+            @click.prevent.stop="closeSelectedTag(tag)"
+          >
+          </span>
+        </router-link>
+      </div>
+    </scroll-panel>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, watch, onMounted } from 'vue'
 import { useStore } from '@/store'
-import { useRoute, RouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw, useRoute, useRouter } from 'vue-router'
+import { RouteLocationWithFullPath } from '@/store/modules/tagsView'
+import path from 'path'
+import { routes } from '@/router'
+import ScrollPanel from './ScrollPanel.vue'
 export default defineComponent({
   name: 'TagsView',
+  components: {
+    ScrollPanel
+  },
   setup () {
     const store = useStore()
+    const router = useRouter()
     const route = useRoute()
     const visitedTags = computed(() => store.state.tagsView.visitedViews)
-    console.log('route visitedTags', route, visitedTags)
     const addTags = () => {
       const { name } = route
-      console.log('addTags visitedTags is', visitedTags)
       if (name) {
         store.dispatch('tagsView/addView', route)
       }
@@ -41,30 +53,98 @@ export default defineComponent({
         addTags()
       }
     )
-    onMounted(() => addTags())
+    onMounted(() => {
+      initTags()
+      addTags()
+    })
 
-    const isActive = (tag: RouteRecordRaw) => tag.path === route.path
+    const isActive = (tag: RouteLocationWithFullPath) =>
+      tag.path === route.path
 
-    const closeSelectedTag = (view: RouteRecordRaw) => {
-      store.dispatch('tagsView/delView', view)
+    const closeSelectedTag = (view: RouteLocationWithFullPath) => {
+      store.dispatch('tagsView/delView', view).then(() => {
+        if (isActive(view)) {
+          toLastView(visitedTags.value, view)
+        }
+      })
+    }
+
+    const fillterAffixTags = (
+      routes: Array<RouteLocationWithFullPath | RouteRecordRaw>,
+      bashPath = '/'
+    ) => {
+      let tags: RouteLocationWithFullPath[] = []
+      routes.forEach(route => {
+        if (route.meta && route.meta.affix) {
+          const tagPath = path.resolve(bashPath, route.path)
+          tags.push({
+            name: route.name,
+            path: tagPath,
+            fullPath: tagPath,
+            meta: {
+              ...route.meta
+            }
+          } as RouteLocationWithFullPath)
+        }
+
+        if (route.children) {
+          const childTags = fillterAffixTags(route.children, route.path)
+          if (childTags.length) {
+            tags = [...tags, ...childTags]
+          }
+        }
+      })
+      return tags
+    }
+    const initTags = () => {
+      const affixTags = fillterAffixTags(routes)
+      for (const tag of affixTags) {
+        if (tag.name) {
+          store.dispatch('tagsView/addVisitedView', tag)
+        }
+      }
+    }
+    // 拿到栈顶的元素
+    const toLastView = (
+      visitedViews: RouteLocationWithFullPath[],
+      view: RouteLocationWithFullPath
+    ) => {
+      const lastView = visitedViews[visitedViews.length - 1]
+      // console.log('router is ', router)
+      // console.log('route is ', route)
+
+      if (lastView) {
+        router.push(lastView.fullPath as string)
+      } else {
+        if (view.name === 'Dashboard') {
+          router.replace({ path: ('/redirect' + view.fullPath) as string })
+        } else {
+          router.push('/')
+        }
+      }
+    }
+    const isAffix = (tag: RouteLocationWithFullPath) => {
+      return tag.meta && tag.meta.affix
     }
     return {
       visitedTags,
       isActive,
-      closeSelectedTag
+      closeSelectedTag,
+      isAffix
     }
   }
 })
 </script>
 <style lang="scss" scoped>
 .tags-view-container {
-  width: 100%;
+  // width: 100%;
   height: 34px;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
   // box-shadow: 0 1px 3px 0 rgba($color: #000000, $alpha: 0.12),
   //   0 0 3px 0 rgba($color: #000000, $alpha: 0.4);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  overflow: hidden;
   .tags-view-wrapper {
     height: 34px;
     display: flex;
@@ -87,7 +167,7 @@ export default defineComponent({
       &:last-of-type {
         margin-right: 15px;
       }
-      &:active {
+      &.active {
         background-color: #42b983;
         color: #fff;
         border-color: #42b983;

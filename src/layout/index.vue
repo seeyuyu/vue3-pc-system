@@ -6,10 +6,8 @@
     </div>
     <div class="main-container">
       <div class="header">
-        <!-- <div class="navbar">navbar</div> -->
         <navbar></navbar>
         <tags-view></tags-view>
-        <!-- <div class="tags-view">tagsview</div> -->
       </div>
       <app-main></app-main>
     </div>
@@ -53,7 +51,7 @@ export default defineComponent({
     .app-main {
       // 84 = 50 +30
       min-height: calc(100vh - 84px);
-      background: red;
+      background: #ccc;
     }
   }
 }
