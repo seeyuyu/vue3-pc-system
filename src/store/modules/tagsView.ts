@@ -29,13 +29,19 @@ const mutations: MutationTree<ITagsViewState> = {
   },
   // 添加缓存
   ADD_CACHED_VIEW (state, view) {
+    // debugger
     if (state.cachedViews.includes(view.name)) return
-    if (view.meta.cache) {
+    if (!view.meta.noCache) {
       state.cachedViews.push(view.name)
     }
   },
   DEL_ALL_CACHED_VIEWS (state) {
     state.cachedViews = []
+  },
+  // 删除指定的view缓存
+  DEL_CACHED_VIEW (state, view) {
+    const index = state.cachedViews.indexOf(view.name)
+    index > -1 && state.cachedViews.splice(index, 1)
   }
 }
 
@@ -43,6 +49,7 @@ const actions: ActionTree<ITagsViewState, IRootState> = {
   addView ({ dispatch }, view: RouteRecordRaw) {
     // console.log('view is', view)
     dispatch('addVisitedView', view)
+    dispatch('addCachedView', view)
   },
   addVisitedView ({ commit }, view: RouteRecordRaw) {
     commit('ADD_VISITED_VIEW', view)
@@ -57,8 +64,21 @@ const actions: ActionTree<ITagsViewState, IRootState> = {
   delVisitedView ({ commit }, view: RouteRecordRaw) {
     commit('DEL_VISITED_VIEW', view)
   },
+
+  // 添加缓存列表
   addCachedView ({ commit }, view: RouteRecordRaw) {
     commit('ADD_CACHED_VIEW', view)
+  },
+  // 删除
+  delCachedView ({ commit }, view:RouteRecordRaw) {
+    return new Promise(resolve => {
+      commit('DEL_CACHED_VIEW', view)
+      resolve(null)
+    })
+  },
+  // 清空缓存列表
+  delAllCachedViews ({ commit }) {
+    commit('DEL_ALL_CACHED_VIEWS')
   }
 }
 

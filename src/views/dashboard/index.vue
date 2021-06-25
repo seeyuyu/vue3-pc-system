@@ -14,7 +14,7 @@ export default defineComponent({
   setup () {
     const { proxy } = getCurrentInstance()!
     const sayHi = () => {
-      // alert('sayhi')
+      alert('sayhi')
       proxy?.$message.success('success')
     }
     return { sayHi }

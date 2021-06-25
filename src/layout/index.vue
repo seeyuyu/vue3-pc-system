@@ -1,7 +1,6 @@
 <template>
   <div class="app-wrapper">
     <div class="sidebar-container">
-      sidebar
       <Sidebar></Sidebar>
     </div>
     <div class="main-container">

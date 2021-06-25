@@ -1,5 +1,6 @@
 <template>
   <div class="app-main">
+    1234{{ cachedViews }}
     <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="put-in">
         <keep-alive :include="cachedViews">
@@ -12,21 +13,23 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
+import { useStore } from '@/store'
+
 export default defineComponent({
   name: 'AppMain',
   setup () {
     const store = useStore()
-    const cachedViews = computed(() => {
-      console.log('cachedViews is', cachedViews)
-      return (store && store.state.tagsView.cachedViews)
-    }
-
-    // {
-    //   console.log('store is', store)
-    //   // store.state.tagsView.cachedViews
-    //   return []
-    // }
+    const cachedViews = computed(
+      () => {
+        console.log('store.state.tagsView.cachedViews is', store.state.tagsView.cachedViews)
+        return store.state.tagsView.cachedViews
+      }
+      // {
+      //   console.log('store is', store)
+      //   // store.state.tagsView.cachedViews
+      //   return []
+      // }
     )
     const route = useRoute()
     const key = computed(() => route.path)
