@@ -146,9 +146,10 @@ export default defineComponent({
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   overflow: hidden;
   .tags-view-wrapper {
-    height: 34px;
-    display: flex;
-    align-items: center;
+    // height: 34px;
+    // display: flex;
+    // align-items: center;
+    // flex-wrap: nowrap;
     .tags-view-item {
       display: inline-block;
       height: 26px;
@@ -160,7 +161,7 @@ export default defineComponent({
       box-sizing: border-box;
       font-size: 12px;
       margin-left: 5px;
-      margin-right: 4px;
+      margin-top: 4px;
       &:first-of-type {
         margin-left: 15px;
       }

@@ -27,8 +27,8 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
     redirect: '/guide/index',
     meta: {
       title: 'Guide',
-      icon: '404',
-      alwaysShow: true
+      icon: '404'
+      // alwaysShow: true
     },
     children: [
       {

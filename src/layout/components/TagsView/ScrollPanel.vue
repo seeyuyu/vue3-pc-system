@@ -12,7 +12,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .scroll-wrapper {
   position: relative;
   width: 100%;

@@ -1,6 +1,5 @@
 <template>
   <div class="app-main">
-    1234{{ cachedViews }}
     <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="put-in">
         <keep-alive :include="cachedViews">
