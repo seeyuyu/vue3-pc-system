@@ -1,7 +1,7 @@
 <template>
   <div class="app-main">
-    <router-view v-slot="{ Component }">
-      <transition name="fade-transform" mode="put-in">
+    <router-view v-slot={Component}>
+      <transition name="fade-transform" mode="out-in">
         <keep-alive :include="cachedViews">
           <component :is="Component" :key="key"></component>
         </keep-alive>
@@ -21,7 +21,7 @@ export default defineComponent({
     const store = useStore()
     const cachedViews = computed(
       () => {
-        console.log('store.state.tagsView.cachedViews is', store.state.tagsView.cachedViews)
+        // console.log('store.state.tagsView.cachedViews is', store.state.tagsView.cachedViews)
         return store.state.tagsView.cachedViews
       }
       // {
@@ -42,17 +42,18 @@ export default defineComponent({
   min-height: calc(100vh- 50px);
 }
 
-// .fade-transform-enter-active,
-// .fade-transform-leave-active {
-//   transition: all .3s;
-// }
+.fade-transform-enter-active,
+.fade-transform-leave-active {
+  transition: all .5s;
+}
 
-// .fade-transform-enter-from {
-//   opacity: 0;
-//   transform: translateX(-10px);
-// }
-// .fade-transform-leave-to {
-//   opacity: 0;
-//   transform: translateX(10px);
-// }
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>

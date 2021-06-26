@@ -10,13 +10,59 @@
           :key="index"
           tag="span"
         >
-          {{ tag.meta.title || "haha" }}
-          <span
-            class="el-icon-close"
-            v-if="!isAffix(tag)"
-            @click.prevent.stop="closeSelectedTag(tag)"
-          >
-          </span>
+          <!-- {{ tag.meta.title || "haha" }} -->
+          <!-- <span
+              class="el-icon-close"
+              v-if="!isAffix(tag)"
+              @click.prevent.stop="closeSelectedTag(tag)"
+            >
+            </span> -->
+
+          <!-- <el-dropdown trigger="click">
+      <span class="el-dropdown-link">
+        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown> -->
+
+          <el-dropdown
+            trigger="contextmenu"
+            @command="command => handleTagCommand(command, tag)"
+            >
+            <span>
+              {{ tag.meta.title || "haha" }}
+              <span
+                class="el-icon-close"
+                v-if="!isAffix(tag)"
+                @click.prevent.stop="closeSelectedTag(tag)"
+              >
+              </span>
+            </span>
+
+            <template #dropdown>
+              <el-dropdown-menu>
+                <!-- <el-dropdown-item>刷新</el-dropdown-item>
+                <el-dropdown-item>关闭所有</el-dropdown-item>
+                <el-dropdown-item>关闭其他</el-dropdown-item> -->
+                <el-dropdown-item command="refresh">刷新</el-dropdown-item>
+                <el-dropdown-item command="all">关闭所有</el-dropdown-item>
+                <el-dropdown-item command="other">关闭其他</el-dropdown-item>
+                <el-dropdown-item
+                  command="self"
+                  v-if="!tag.meta || !tag.meta.affix"
+                  >关闭</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </router-link>
       </div>
     </scroll-panel>
@@ -24,13 +70,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, onMounted } from 'vue'
+import { defineComponent, computed, watch, onMounted, nextTick } from 'vue'
 import { useStore } from '@/store'
 import { RouteRecordRaw, useRoute, useRouter } from 'vue-router'
 import { RouteLocationWithFullPath } from '@/store/modules/tagsView'
 import path from 'path'
 import { routes } from '@/router'
 import ScrollPanel from './ScrollPanel.vue'
+
+enum TagCommandType {
+  All = 'all',
+  Other = 'other',
+  Self = 'self',
+  Refresh = 'refresh'
+}
+
 export default defineComponent({
   name: 'TagsView',
   components: {
@@ -62,6 +116,7 @@ export default defineComponent({
       tag.path === route.path
 
     const closeSelectedTag = (view: RouteLocationWithFullPath) => {
+      // debugger
       store.dispatch('tagsView/delView', view).then(() => {
         if (isActive(view)) {
           toLastView(visitedTags.value, view)
@@ -96,6 +151,15 @@ export default defineComponent({
       })
       return tags
     }
+    // 右键刷新页面
+    const refreshSelectedTag = (view: RouteLocationWithFullPath) => {
+      store.dispatch('tagsView/delCachedView', view).then(() => {
+        const { fullPath } = view
+        nextTick(() => {
+          router.replace('/redirect' + fullPath)
+        })
+      })
+    }
     const initTags = () => {
       const affixTags = fillterAffixTags(routes)
       for (const tag of affixTags) {
@@ -126,15 +190,55 @@ export default defineComponent({
     const isAffix = (tag: RouteLocationWithFullPath) => {
       return tag.meta && tag.meta.affix
     }
+
+    const handleTagCommand = (
+      command: TagCommandType,
+      view: RouteLocationWithFullPath
+    ) => {
+      // debugger
+      switch (command) {
+        case TagCommandType.All:
+          handleCloseALLTag(view)
+          break
+        case TagCommandType.Other:
+          handleCloseOtherTag(view)
+          break
+        case TagCommandType.Self:
+          closeSelectedTag(view)
+          break
+        case TagCommandType.Refresh:
+          refreshSelectedTag(view)
+          break
+      }
+    }
+    // 关闭所有后，切换到最后一个剩下的tag
+    const handleCloseALLTag = (view: RouteLocationWithFullPath) => {
+      // debugger
+      store.dispatch('tagsView/delAllView').then(() => {
+        toLastView(visitedTags.value, view)
+      })
+    }
+    // 关闭其他的标签
+    const handleCloseOtherTag = (view: RouteLocationWithFullPath) => {
+      store.dispatch('tagsView/delOthersViews', view).then(() => {
+        // 删除所有路由后，激活此路由
+        if (!isActive(view)) {
+          router.push(view.path)
+        }
+      })
+    }
+
     return {
       visitedTags,
       isActive,
       closeSelectedTag,
-      isAffix
+      isAffix,
+      handleTagCommand
     }
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .tags-view-container {
   // width: 100%;

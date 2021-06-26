@@ -27,6 +27,13 @@ const mutations: MutationTree<ITagsViewState> = {
       state.visitedViews.splice(i, 1)
     }
   },
+  // 清空可显示列表
+  DEL_ALL_VISITED_VIEWS (state) {
+    const affixTags = state.visitedViews.filter(tag =>
+      tag.meta.affix
+    )
+    state.visitedViews = affixTags
+  },
   // 添加缓存
   ADD_CACHED_VIEW (state, view) {
     // debugger
@@ -42,6 +49,13 @@ const mutations: MutationTree<ITagsViewState> = {
   DEL_CACHED_VIEW (state, view) {
     const index = state.cachedViews.indexOf(view.name)
     index > -1 && state.cachedViews.splice(index, 1)
+  },
+  DEL_OTHERS_VISITED_VIEWS (state, view) {
+    state.visitedViews = state.visitedViews.filter(tag => tag.meta.affix || (tag.path === view.path))
+  },
+  DEL_OTHERS_CACHED_VIEWS (state, view) {
+    state.cachedViews = state.cachedViews.filter(item => item === view.name)
+    console.log('state.cachedViews is', state.cachedViews)
   }
 }
 
@@ -61,6 +75,15 @@ const actions: ActionTree<ITagsViewState, IRootState> = {
       resolve(null)
     })
   },
+  // 清空可显示列表和缓存列表
+  delAllView ({ dispatch }) {
+    return new Promise(resolve => {
+      dispatch('delAllVisitedView')
+      dispatch('delAllCachedViews')
+      resolve(null)
+    })
+  },
+
   delVisitedView ({ commit }, view: RouteRecordRaw) {
     commit('DEL_VISITED_VIEW', view)
   },
@@ -76,9 +99,25 @@ const actions: ActionTree<ITagsViewState, IRootState> = {
       resolve(null)
     })
   },
+
+  // 清空可显示列表
+  delAllVisitedView ({ commit }) {
+    commit('DEL_ALL_VISITED_VIEWS')
+  },
   // 清空缓存列表
   delAllCachedViews ({ commit }) {
     commit('DEL_ALL_CACHED_VIEWS')
+  },
+  // 关闭其他tag
+  delOthersViews ({ dispatch }, view: RouteRecordRaw) {
+    dispatch('delOthersVisitedViews', view)
+    dispatch('delOthersCachedViews', view)
+  },
+  delOthersVisitedViews ({ commit }, view: RouteRecordRaw) {
+    commit('DEL_OTHERS_VISITED_VIEWS', view)
+  },
+  delOthersCachedViews ({ commit }, view: RouteRecordRaw) {
+    commit('DEL_OTHERS_CACHED_VIEWS', view)
   }
 }
 

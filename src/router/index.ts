@@ -15,7 +15,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
           title: 'Documentation',
           icon: '404',
           hidden: false,
-          noCache: true
+          noCache: false
         }
       }
     ]
@@ -127,7 +127,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         meta: {
           title: 'Dashboard',
           icon: 'el-icon-platform-eleme',
-          noCache: true
+          noCache: false
         }
       }
     ]
