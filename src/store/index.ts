@@ -4,11 +4,13 @@ import app, { IAppState } from '@/store/modules/app'
 import tagsView, { ITagsViewState } from './modules/tagsView'
 import getters from './getters'
 import createPersistedState from 'vuex-persistedstate'
+import settings, { ISettingsState } from './modules/settings'
 
 // 声明全局状态类型，主要是定义的模块
 export interface IRootState {
   app: IAppState,
-  tagsView: ITagsViewState
+  tagsView: ITagsViewState,
+  settings: ISettingsState
 }
 
 // eslint-disable-next-line symbol-description
@@ -20,15 +22,21 @@ export const persisteAppState = createPersistedState({
   key: 'vuex_app',
   paths: ['app.sidebar.opened']
 })
-
+export const persisteSettingsState = createPersistedState({
+  storage: window.sessionStorage,
+  key: 'vuex_setting',
+  paths: ['setting.theme', 'setting.originalStyle']
+})
 export default createStore<IRootState>({
   plugins: [
-    persisteAppState
+    persisteAppState,
+    persisteSettingsState
   ],
   getters,
   modules: {
     app,
-    tagsView
+    tagsView,
+    settings
   }
 })
 
