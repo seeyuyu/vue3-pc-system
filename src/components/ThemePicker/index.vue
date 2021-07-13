@@ -12,7 +12,7 @@
 <script lang="ts">
 import { computed, defineComponent, watch, ref } from 'vue'
 import { useStore } from '@/store'
-import useGenerateTheme from '@hooks/useGenerateTheme'
+import { useGenerateTheme } from '@/hooks/useGenerateTheme'
 export default defineComponent({
   setup () {
     const store = useStore()
@@ -28,6 +28,8 @@ export default defineComponent({
     })
 
     watch(theme, value => {
+      // debugger
+      console.log(store)
       store.dispatch('settings/changeSetting', { key: 'theme', value })
       generateTheme(value)
     })

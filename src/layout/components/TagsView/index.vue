@@ -5,6 +5,11 @@
         <router-link
           class="tags-view-item"
           :class="{ active: isActive(tag) }"
+          :style="{
+            backgroundColor: isActive(tag)?themeColor : '',
+            borderColor: isActive(tag)?themeColor : '',
+
+          }"
           v-for="(tag, index) in visitedTags"
           :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
           :key="index"
@@ -204,13 +209,14 @@ export default defineComponent({
         }
       })
     }
-
+    const themeColor = computed(() => store.getters.themeColor)
     return {
       visitedTags,
       isActive,
       closeSelectedTag,
       isAffix,
-      handleTagCommand
+      handleTagCommand,
+      themeColor
     }
   }
 })

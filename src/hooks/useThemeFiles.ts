@@ -1,5 +1,5 @@
 import { useFetch } from './useFetch'
-import pkgJson from 'element-plus/packages.json'
+import pkgJson from 'element-plus/package.json'
 
 const version = pkgJson.version
 

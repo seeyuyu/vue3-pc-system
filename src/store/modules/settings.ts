@@ -1,4 +1,4 @@
-import { MutationTree, ActionTree } from 'vuex'
+import { Module, MutationTree, ActionTree } from 'vuex'
 import { IRootState } from '@/store'
 import variables from '@/styles/variables.scss'
 export interface ISettingsState{
@@ -30,9 +30,16 @@ const actions: ActionTree<ISettingsState, IRootState> = {
   }
 }
 
-export default {
-  namespace: true,
+const settings: Module<ISettingsState, IRootState> = {
+  namespaced: true,
   state,
   mutations,
   actions
 }
+export default settings
+// export default {
+//   namespace: true,
+//   state,
+//   mutations,
+//   actions
+// }

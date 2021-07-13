@@ -7,7 +7,7 @@
       :default-active="activeMenu"
       :background-color="scssVariables.menuBg"
       :text-color="scssVariables.menuText"
-      :active-text-color="scssVariables.menuActiveText"
+      :active-text-color="themeColor"
       :collapse="isCollapse"
       :collapse-transition="true"
     >
@@ -46,7 +46,7 @@ export default defineComponent({
     const scssVariables = computed(() => variables)
     // 菜单展开收起状态 需要存储在store中
     const isCollapse = computed(() => !store.getters.sidebar.opened)
-
+    const themeColor = computed(() => store.getters.themeColor)
     const menuRoutes = computed(() => {
       // console.log('route is', routes)
       return routes
@@ -55,7 +55,8 @@ export default defineComponent({
       scssVariables,
       isCollapse,
       activeMenu,
-      menuRoutes
+      menuRoutes,
+      themeColor
     }
   }
 })
