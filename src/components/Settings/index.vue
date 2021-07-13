@@ -4,7 +4,19 @@
       <span>主题色</span>
       <theme-picker></theme-picker>
     </div>
+  <div class="drawer-item">
+    <span>
+      Open Tags-views
+    </span>
+    <el-switch v-model="tagsView" class="drawer-switch">
+    </el-switch>
+  </div>
+  <div class="drawer-item">
+    <span>Sidebar Logo</span>
+     <el-switch v-model="showSidebarLogo" class="drawer-switch">
 
+    </el-switch>
+  </div>
     <!-- <div class="drawer-item">
       <span>Open Tags-View</span>
       <el-switch v-model="tagsView" class="drawer-switch"></el-switch>
@@ -18,14 +30,42 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import ThemePicker from '@/components/ThemePicker/index.vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'Settings',
-  // setup () {
+  setup () {
+    const store = useStore()
+    const tagsView = computed({
+      get () {
+        return store.state.settings.tagsView
+      },
+      set (val) {
+        store.dispatch('settings/changeSetting', {
+          key: 'tagsView',
+          value: val
+        })
+      }
+    })
 
-  // }
+    const showSidebarLogo = computed({
+      get () {
+        return store.state.settings.sidebarLogo
+      },
+      set (val) {
+        store.dispatch('settings/changeSetting', {
+          key: 'sidebarLogo',
+          value: val
+        })
+      }
+    })
+    return {
+      tagsView,
+      showSidebarLogo
+    }
+  },
   components: {
     ThemePicker
   }

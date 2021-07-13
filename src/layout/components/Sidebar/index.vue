@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3 style="color:green;" @click="isCollapse = !isCollapse">测试</h3>
+    <logo v-if="showLogo" :collapse="isCollapse"></logo>
+    <!-- <h3 style="color:green;" @click="isCollapse = !isCollapse">测试</h3> -->
     <el-menu
       class="sidebar-container-menu"
       mode="vertical"
@@ -27,10 +28,12 @@ import SidebarItem from './SidebarItem.vue'
 import { routes } from '@/router'
 import variables from '@/styles/variables.scss'
 import { useStore } from '@/store'
+import Logo from './Logo.vue'
 export default defineComponent({
   name: 'Sidebar',
   components: {
-    SidebarItem
+    SidebarItem,
+    Logo
   },
   setup () {
     const route = useRoute()
@@ -51,12 +54,15 @@ export default defineComponent({
       // console.log('route is', routes)
       return routes
     })
+    // 是否显示logo
+    const showLogo = computed(() => store.state.settings.sidebarLogo)
     return {
       scssVariables,
       isCollapse,
       activeMenu,
       menuRoutes,
-      themeColor
+      themeColor,
+      showLogo
     }
   }
 })

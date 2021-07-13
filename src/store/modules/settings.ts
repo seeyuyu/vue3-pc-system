@@ -3,11 +3,15 @@ import { IRootState } from '@/store'
 import variables from '@/styles/variables.scss'
 export interface ISettingsState{
   theme: string,
-  originalStyle: string
+  originalStyle: string,
+  tagsView: boolean,
+  sidebarLogo: boolean
 }
 const state: ISettingsState = {
   theme: variables.theme,
-  originalStyle: ''
+  originalStyle: '',
+  tagsView: true,
+  sidebarLogo: true
 }
 
 type ValueOf<T> = T[keyof T]
