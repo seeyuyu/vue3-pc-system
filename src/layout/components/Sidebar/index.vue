@@ -1,30 +1,33 @@
 <template>
-  <div>
+  <div class="sidebar-wrapper">
     <logo v-if="showLogo" :collapse="isCollapse"></logo>
-    <!-- <h3 style="color:green;" @click="isCollapse = !isCollapse">测试</h3> -->
-    <el-menu
-      class="sidebar-container-menu"
-      mode="vertical"
-      :default-active="activeMenu"
-      :background-color="scssVariables.menuBg"
-      :text-color="scssVariables.menuText"
-      :active-text-color="themeColor"
-      :collapse="isCollapse"
-      :collapse-transition="true"
-    >
-      <sidebar-item
-        v-for="route in menuRoutes"
-        :key="route.path"
-        :item="route"
-        :base-path="route.path"
-      />
-    </el-menu>
+    <scroll-panel>
+      <el-menu
+        class="sidebar-container-menu"
+        :class="{ 'sidebar-show-logo': showLogo }"
+        mode="vertical"
+        :default-active="activeMenu"
+        :background-color="scssVariables.menuBg"
+        :text-color="scssVariables.menuText"
+        :active-text-color="themeColor"
+        :collapse="isCollapse"
+        :collapse-transition="true"
+      >
+        <sidebar-item
+          v-for="route in menuRoutes"
+          :key="route.path"
+          :item="route"
+          :base-path="route.path"
+        />
+      </el-menu>
+    </scroll-panel>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import SidebarItem from './SidebarItem.vue'
+import ScrollPanel from '@/components/ScrollPanel.vue'
 import { routes } from '@/router'
 import variables from '@/styles/variables.scss'
 import { useStore } from '@/store'
@@ -33,7 +36,8 @@ export default defineComponent({
   name: 'Sidebar',
   components: {
     SidebarItem,
-    Logo
+    Logo,
+    ScrollPanel
   },
   setup () {
     const route = useRoute()
@@ -67,3 +71,13 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss" scoped>
+.sidebar-wrapper {
+  .sidebar-container-menu {
+    height: 100vh;
+    &.sidebar-show-logo {
+      height: calc(100vh - 50px);
+    }
+  }
+}
+</style>

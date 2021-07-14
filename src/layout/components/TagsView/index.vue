@@ -58,7 +58,7 @@ import { RouteRecordRaw, useRoute, useRouter } from 'vue-router'
 import { RouteLocationWithFullPath } from '@/store/modules/tagsView'
 import path from 'path'
 import { routes } from '@/router'
-import ScrollPanel from './ScrollPanel.vue'
+import ScrollPanel from '@/components/ScrollPanel.vue'
 
 enum TagCommandType {
   All = 'all',

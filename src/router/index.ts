@@ -43,6 +43,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       }
     ]
   },
+
   {
     path: '/system',
     name: 'System',
