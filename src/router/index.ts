@@ -134,6 +134,16 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+    meta: {
+      title: 'login'
+
+    }
+
+  },
+  {
     path: '/redirect',
     component: Layout,
     name: 'ReDirect',

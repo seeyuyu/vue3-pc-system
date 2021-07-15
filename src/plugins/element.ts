@@ -1,5 +1,5 @@
 import {
-  ElButton, ElMenuItem, ElMessage, ElMessageBox, ElNotification, ElSubmenu, ElMenu, ElBreadcrumb, ElBreadcrumbItem, ElCol, ElDropdown, ElDropdownItem, ElDropdownMenu, ElScrollbar, ElDrawer, ElColorPicker, ElSwitch
+  ElButton, ElMenuItem, ElMessage, ElMessageBox, ElNotification, ElSubmenu, ElMenu, ElBreadcrumb, ElBreadcrumbItem, ElCol, ElDropdown, ElDropdownItem, ElDropdownMenu, ElScrollbar, ElDrawer, ElColorPicker, ElSwitch, ElFormItem, ElInput, ElForm
 } from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import locale from 'element-plus/lib/locale'
@@ -26,7 +26,10 @@ export default (app: App):void => {
     ElScrollbar,
     ElDrawer,
     ElColorPicker,
-    ElSwitch
+    ElSwitch,
+    ElInput,
+    ElForm,
+    ElFormItem
 
   ]
   components.forEach(component => {
