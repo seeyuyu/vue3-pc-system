@@ -25,7 +25,7 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Humbuger from '@/components/Hambuger/index.vue'
 import { useStore } from '@/store/index'
 import Screenfull from '@/components/Screenfull/index.vue'
-import Avatar from './avatar/index.vue'
+import Avatar from './Avatar/index.vue'
 export default defineComponent({
   name: 'Navbar',
   components: {

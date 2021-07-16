@@ -5,10 +5,12 @@ import tagsView, { ITagsViewState } from './modules/tagsView'
 import getters from './getters'
 import createPersistedState from 'vuex-persistedstate'
 import settings, { ISettingsState } from './modules/settings'
+import user, { IUserState } from './modules/user'
 
 // 声明全局状态类型，主要是定义的模块
 export interface IRootState {
   app: IAppState,
+  user: IUserState,
   tagsView: ITagsViewState,
   settings: ISettingsState
 }
@@ -36,6 +38,7 @@ export default createStore<IRootState>({
   modules: {
     app,
     tagsView,
+    user,
     settings
   }
 })

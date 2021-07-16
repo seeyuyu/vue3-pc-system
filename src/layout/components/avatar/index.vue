@@ -16,8 +16,8 @@
             个人设置
           </el-dropdown-item>
         </router-link>
-        <el-dropdown-item>
-          退出登录
+        <el-dropdown-item @click="logout">
+          <span>退出登录</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -25,18 +25,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
+import { defineComponent, getCurrentInstance } from 'vue'
+import { useStore } from '@/store'
 import avatar from '@/assets/logo.png'
 export default defineComponent({
   setup () {
-    const logout = () => { console.log('logout') }
+    const store = useStore()
+    const { proxy } = getCurrentInstance()!
+
+    const logout = () => {
+      console.log('logout')
+
+      store.dispatch('user/logout').then(() => {
+        proxy?.$message.success('退出登录')
+        // window.location.reload()
+      })
+    }
     return {
       logout,
       avatar
     }
   }
-
 })
 </script>
 

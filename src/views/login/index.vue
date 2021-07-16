@@ -20,12 +20,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs } from 'vue'
+import { defineComponent, ref, reactive, toRefs, onMounted, getCurrentInstance } from 'vue'
 import { ElForm } from 'element-plus'
+import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
+import uesRouteQuery from './hooks/useRouteQuery'
 type IElFormInstance = InstanceType<typeof ElForm>
 export default defineComponent({
   name: 'Login',
   setup () {
+    const { proxy } = getCurrentInstance()!
+    const store = useStore()
+    const router = useRouter()
     const loginFormRef = ref<IElFormInstance | null>(null)
     const usernameRef = ref<IElFormInstance | null>(null)
     const passwordRef = ref<IElFormInstance | null>(null)
@@ -56,11 +62,25 @@ export default defineComponent({
     })
 
     const loading = ref(false)
+    const { redirect, otherQuery } = uesRouteQuery()
+
     const handleLogin = () => {
       console.log('login');
       (loginFormRef.value as IElFormInstance).validate(valid => {
         if (valid) {
           console.log(loginState.loginForm)
+          loading.value = true
+          store.dispatch('user/login', loginState.loginForm).then(() => {
+            proxy?.$message.success('登录成功')
+            router.push({
+              path: redirect.value || '/',
+              query: otherQuery.value
+            })
+          }).finally(() => {
+            loading.value = false
+          })
+        } else {
+          console.log('error submit!!')
         }
       })
     }
