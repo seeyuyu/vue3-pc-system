@@ -4,7 +4,7 @@ import { getToken } from './utils/auth'
 import 'nprogress/nprogress.css'
 
 nProgress.configure({ showSpinner: false })
-const whiteList = ['/Login']
+const whiteList = ['/login']
 router.beforeEach((to) => {
   nProgress.start()
   const hasToken = getToken()
@@ -24,7 +24,7 @@ router.beforeEach((to) => {
     }
     nProgress.done()
     return {
-      path: 'logon',
+      path: 'login',
       query: {
         redirect: to.path,
         ...to.query

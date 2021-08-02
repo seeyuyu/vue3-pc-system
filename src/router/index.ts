@@ -139,6 +139,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: {
       title: 'login'
+      // hidden: true
 
     }
 
@@ -174,6 +175,7 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   },
   {
     path: '/404',
+    name: '404',
     component: () => import('@/views/error-page/404.vue'),
     meta: {
       hidden: true

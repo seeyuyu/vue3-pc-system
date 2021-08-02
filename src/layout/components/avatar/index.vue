@@ -38,7 +38,7 @@ export default defineComponent({
 
       store.dispatch('user/logout').then(() => {
         proxy?.$message.success('退出登录')
-        // window.location.reload()
+        window.location.reload()
       })
     }
     return {

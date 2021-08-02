@@ -60,6 +60,7 @@ const mutations: MutationTree<ITagsViewState> = {
 }
 
 const actions: ActionTree<ITagsViewState, IRootState> = {
+
   addView ({ dispatch }, view: RouteRecordRaw) {
     // console.log('view is', view)
     dispatch('addVisitedView', view)
@@ -76,7 +77,7 @@ const actions: ActionTree<ITagsViewState, IRootState> = {
     })
   },
   // 清空可显示列表和缓存列表
-  delAllView ({ dispatch }) {
+  delAllViews ({ dispatch }) {
     return new Promise(resolve => {
       dispatch('delAllVisitedView')
       dispatch('delAllCachedViews')

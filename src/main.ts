@@ -9,7 +9,7 @@ import { ElMessageBox, ElMessage, ElNotification } from 'element-plus'
 import 'normalize.css/normalize.css'
 import '@/styles/index.scss'
 import initSvgIcon from '@/icons/index'
-
+import './permission'
 const app = createApp(App)
 installElementPlus(app)
 app.use(store, key).use(router).use(initSvgIcon).mount('#app')

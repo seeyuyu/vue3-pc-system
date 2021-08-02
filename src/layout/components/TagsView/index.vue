@@ -196,7 +196,7 @@ export default defineComponent({
     // 关闭所有后，切换到最后一个剩下的tag
     const handleCloseALLTag = (view: RouteLocationWithFullPath) => {
       // debugger
-      store.dispatch('tagsView/delAllView').then(() => {
+      store.dispatch('tagsView/delAllViews').then(() => {
         toLastView(visitedTags.value, view)
       })
     }
