@@ -13,7 +13,7 @@ import screenfull, { Screenfull } from 'screenfull'
 export default defineComponent({
   name: 'ScreenFull',
   setup () {
-    const { proxy } = getCurrentInstance()!
+    const proxy = getCurrentInstance()?.proxy
     const isFullscreen = ref(false)
     const handleClick = () => {
       if (screenfull.isEnabled) {

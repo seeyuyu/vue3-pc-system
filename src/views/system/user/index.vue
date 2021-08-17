@@ -98,13 +98,15 @@
 </template>
 
 <script lang="ts">
+import { IRole } from '@/views/system/role/types'
+
 import { computed, defineComponent, onMounted, reactive, ref, getCurrentInstance } from 'vue'
 import { ElForm } from 'element-plus'
 import { Profile } from '@/store/modules/user'
 import { useStore } from '@/store'
 import RightPanel from '@/components/RightPanel/index.vue'
 import EditorUser from './components/editorUser.vue'
-
+import { getRoles } from '@/api/role'
 type ElFormInstance = InstanceType<typeof ElForm>
 
 export default defineComponent({
@@ -114,7 +116,8 @@ export default defineComponent({
     RightPanel
   },
   setup () {
-    const { proxy } = getCurrentInstance()!
+    // const { proxy } = getCurrentInstance()!
+    const proxy = getCurrentInstance()?.proxy
     const store = useStore()
     // 查询表单ref
     const queryFormRef = ref<ElFormInstance | null>(null)
@@ -130,7 +133,7 @@ export default defineComponent({
     const total = computed(() => store.state.user.count)
     // 分页相关状态
     const pageNum = ref(0)
-    const pageSize = ref(1)
+    const pageSize = ref(10)
 
     // 获取用户列表 支持分页
     const getUserList = () => {
@@ -180,9 +183,14 @@ export default defineComponent({
     const panelTitle = computed(() => editType.value === 1 ? '新增用户' : '编辑用户')
 
     // 获取角色 添加和编辑用户都需要分配角色 这里是必选
-    store.dispatch('role/getRoles')
-
-    const roles = computed(() => store.state.role.roles)
+    // store.dispatch('role/getRoles')
+    //
+    const roles = ref<IRole[] | []>([])
+    getRoles().then(res => {
+      roles.value = res.data.roles
+      console.log('roles is', roles.value)
+    })
+    // computed(() => store.state.role.roles)
     // 添加用户
     const handleAddUser = () => {
       editType.value = 1

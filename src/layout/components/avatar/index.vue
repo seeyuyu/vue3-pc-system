@@ -31,8 +31,8 @@ import avatar from '@/assets/logo.png'
 export default defineComponent({
   setup () {
     const store = useStore()
-    const { proxy } = getCurrentInstance()!
-
+    // const { proxy } = getCurrentInstance()!
+    const proxy = getCurrentInstance()?.proxy
     const logout = () => {
       console.log('logout')
 

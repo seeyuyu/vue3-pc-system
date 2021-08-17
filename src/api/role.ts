@@ -1,6 +1,6 @@
 
 import request from '@/api/config/request'
-import { IRole, IRoleState } from '@/store/modules/role'
+import { IRole, IRoleState } from '@/views/system/role/types'
 import { ApiResponse } from './type'
 
 // 获取角色

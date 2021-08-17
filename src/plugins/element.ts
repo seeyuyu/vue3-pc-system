@@ -1,11 +1,13 @@
 import {
-  ElButton, ElMenuItem, ElMessage, ElMessageBox, ElNotification, ElSubmenu, ElMenu, ElBreadcrumb, ElBreadcrumbItem, ElCol, ElDropdown, ElDropdownItem, ElDropdownMenu, ElScrollbar, ElDrawer, ElColorPicker, ElSwitch, ElFormItem, ElInput, ElForm
+  ElButton, ElMenuItem, ElMessage, ElMessageBox, ElNotification, ElSubmenu, ElMenu, ElBreadcrumb, ElBreadcrumbItem, ElCol, ElDropdown, ElDropdownItem, ElDropdownMenu, ElScrollbar, ElDrawer, ElColorPicker, ElSwitch,
+  ElFormItem, ElInput, ElForm, ElSelect, ElOption, ElTable, ElTableColumn
 } from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import locale from 'element-plus/lib/locale'
 // import 'element-plus/lib/theme-chalk/index.css'
 import { App } from 'vue'
 import 'dayjs/locale/zh-cn'
+
 export type Size='default' | 'medium' | 'small' | 'mini'
 
 export default (app: App):void => {
@@ -29,7 +31,11 @@ export default (app: App):void => {
     ElSwitch,
     ElInput,
     ElForm,
-    ElFormItem
+    ElFormItem,
+    ElSelect,
+    ElOption,
+    ElTable,
+    ElTableColumn
 
   ]
   components.forEach(component => {

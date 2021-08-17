@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs, onMounted, getCurrentInstance } from 'vue'
+import { defineComponent, ref, reactive, toRefs, getCurrentInstance } from 'vue'
 import { ElForm } from 'element-plus'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
@@ -29,7 +29,8 @@ type IElFormInstance = InstanceType<typeof ElForm>
 export default defineComponent({
   name: 'Login',
   setup () {
-    const { proxy } = getCurrentInstance()!
+    // const { proxy } = getCurrentInstance()!
+    const proxy = getCurrentInstance()?.proxy
     const store = useStore()
     const router = useRouter()
     const loginFormRef = ref<IElFormInstance | null>(null)

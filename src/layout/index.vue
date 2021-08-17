@@ -77,7 +77,7 @@ export default defineComponent({
     .app-main {
       // 84 = 50 +30
       min-height: calc(100vh - 84px);
-      background: #ccc;
+      background: #eee;
     }
   }
 }

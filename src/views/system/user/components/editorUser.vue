@@ -55,12 +55,13 @@ import { defineComponent, PropType, ref, watchEffect } from 'vue'
 import { ElForm } from 'element-plus'
 import { Profile } from '@/store/modules/user'
 
-type FormInstance = InstanceType<typeof ElForm>
+type FormInstance = InstanceType<typeof ElForm>;
 
 export default defineComponent({
   name: 'EditorMenu',
   props: {
-    type: { // 操作类型 0编辑 1新增
+    type: {
+      // 操作类型 0编辑 1新增
       type: Number,
       required: true
     },
@@ -92,16 +93,16 @@ export default defineComponent({
       callback(new Error('请输入正确格式手机号!'))
     }
 
-    const validateRoles = (
-      rule: unknown,
-      value: number[],
-      callback: (arg?: Error) => void
-    ) => {
-      if (value.length <= 0) {
-        callback(new Error('请至少选择一个角色！'))
-      }
-      callback()
-    }
+    // const validateRoles = (
+    //   rule: unknown,
+    //   value: number[],
+    //   callback: (arg?: Error) => void
+    // ) => {
+    //   if (value.length <= 0) {
+    //     callback(new Error('请至少选择一个角色！'))
+    //   }
+    //   callback()
+    // }
     const menuFormRules = {
       username: {
         required: true,
